@@ -50,6 +50,14 @@ public class AppTest {
         assertEquals(output.name, category.name);
     }
 
+    @Test
+    public void saveCategoryNull() {
+        CategoryRepository categoryRepository = new CategoryRepository(session);
+        long id = 1;
+        Category output = categoryRepository.loadById(id);
+        assertNull(output);
+    }
+
     @After
 	public void afterEachTest() {
 		session.close();
