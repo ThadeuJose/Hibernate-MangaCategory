@@ -2,6 +2,7 @@ package com.example;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import com.example.model.Category;
 import com.example.repository.CategoryRepository;
@@ -9,19 +10,34 @@ import com.example.repository.CategoryRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AppTest {
 
-    private Configuration configure;
+    private static Configuration configure;
+    private static SessionFactory sessionFactory;
+    private Session session;
+
+    @BeforeClass
+    public static void beforeAllTest(){
+        configure = new Configuration().configure("hibernate-test.cfg.xml");
+        configure.addAnnotatedClass(Category.class);
+
+        sessionFactory = configure.buildSessionFactory();
+    }
+
+
+    @Before
+    public void beforeEachTest(){
+        session = sessionFactory.openSession();
+    }
 
     @Test
     public void saveCategory() {
-        configure = new Configuration().configure("hibernate-test.cfg.xml");
-        configure.addAnnotatedClass(Category.class);
-        SessionFactory sessionFactory = configure.buildSessionFactory();
-        Session session = sessionFactory.openSession();
-
         Category category = new Category();
         category.name = "Test";     
 
@@ -32,8 +48,16 @@ public class AppTest {
 		Category output = categoryRepository.loadById(id);
         assertNotNull(output);
         assertEquals(output.name, category.name);
-
-        session.close();
-		sessionFactory.close();        
     }
+
+    @After
+	public void afterEachTest() {
+		session.close();
+	}
+
+    @AfterClass
+	public static void afterAllTest() {
+		sessionFactory.close();
+	}
+
 }
