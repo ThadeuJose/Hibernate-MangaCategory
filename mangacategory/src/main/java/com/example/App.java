@@ -11,20 +11,22 @@ public class App
 {
     public static void main( String[] args )
     {
-        Configuration configure = new Configuration().configure("hibernate-production.cfg.xml");
-        configure.addAnnotatedClass(Category.class);
-        SessionFactory sessionFactory = configure.buildSessionFactory();
+        ConfigurationFactory cf = new ConfigurationFactory();
+        String productionFilename = "hibernate-production.cfg.xml";
+        Configuration configuration = cf.createConfiguration(productionFilename);
+        
+        SessionFactory sessionFactory = configuration.buildSessionFactory();
         Session session = sessionFactory.openSession();
 
-        // Category category = new Category();
-        // category.name = "Test2";     
+        Category category = new Category();
+        category.name = "Test1";
 
-        // System.out.println(session.save(category));
+        System.out.println(session.save(category));
 
         CategoryRepository categoryRepository = new CategoryRepository(session);
-        long id = 4;
+        long id = 1;
 		Category output = categoryRepository.loadById(id);
-        System.out.println(output.name);
+        System.out.println(output);
 
         session.close();
 		sessionFactory.close();

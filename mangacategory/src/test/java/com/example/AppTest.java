@@ -18,18 +18,18 @@ import org.junit.Test;
 
 public class AppTest {
 
-    private static Configuration configure;
+    private static Configuration configuration;
     private static SessionFactory sessionFactory;
     private Session session;
 
     @BeforeClass
     public static void beforeAllTest(){
-        configure = new Configuration().configure("hibernate-test.cfg.xml");
-        configure.addAnnotatedClass(Category.class);
-
-        sessionFactory = configure.buildSessionFactory();
+        String testFilename = "hibernate-test.cfg.xml";
+        ConfigurationFactory cf = new ConfigurationFactory();
+        configuration = cf.createConfiguration(testFilename);
+        
+        sessionFactory = configuration.buildSessionFactory();
     }
-
 
     @Before
     public void beforeEachTest(){
