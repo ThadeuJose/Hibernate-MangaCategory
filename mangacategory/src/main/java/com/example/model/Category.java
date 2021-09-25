@@ -12,6 +12,10 @@ public class Category {
     @GeneratedValue
     private Long id;
 
-	@Column(unique = true, nullable = false)
+	@Column //TODO: Adicionar no final(unique = true, nullable = false)
 	public String name;
+
+    public Long getId() {
+        return id;
+    }
 }
