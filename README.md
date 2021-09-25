@@ -8,6 +8,7 @@ Pet Project to learn Hibernate
 # Tasks 
 	
 - [x] Return all manga with determinated categories 
+- [x] Return all manga in reverse order of alter date 
 	
 # TODO 
 	
